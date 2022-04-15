@@ -4,34 +4,46 @@
 classDiagram
 Reporter --* Report
 
-Report : Reporter reporter
-Report : void addReportItem(Object item)
-Report : String getReport()
+class Report {
+	Reporter reporter
+	+addReportItem(Object item) void
+	+getReport() String
+}
 
-Reporter : String header, trailer, report
-Reporter : void addLine()
-Reporter : void setHeader()
-Reporter : void setTrailer()
-Reporter : String getReport()
+class Reporter {
+	String header, trailer, report
+	+addLine()* void
+	+setHeader() void
+	+setTrailer() void
+	+getReport() String
+}
 
 Report <-- StockListReport
 
-StockListReport : ArrayList stock
-StockListReport : void addStockItem()
+class StockListReport {
+	ArrayList stock
+	+addStockItem() void
+}
 
 Report <-- HRReport
 
-HRReport : ArrayList staff
-HRReport : void addStaffItem()
+class HRReport {
+	ArrayList staff
+	+addStaffItem() void
+}
 
 Reporter <-- HTMLReporter
 
-HTMLReporter : HTMLReporter()
-HTMLReporter : void addLine()
+class HTMLReporter {
+	+HTMLReporter()
+	+addLine() void
+}
 
 Reporter <-- TextReporter
 
-TextReporter : void addLine()
+class TextReporter {
+	+addLine() void
+}
 ```
 
 ## Input Sample
@@ -78,27 +90,27 @@ MeowDog --* Cat
 
 class Cat{
 	String name
-	String miao()
-	bool catchRat(String pos)
-	void run()
-	void sleep()
+	miao() String
+	catchRat(String pos) bool
+	run() void
+	sleep() void
 }
 
 class Dog{
 	<<interface>>
-	String wao()
-	bool fetchBall(String pos)
-	void run()
-	void sleep()
+	wao() String
+	fetchBall(String pos) bool
+	run() void
+	sleep() void
 }
 
 class MeowDog{
 	Cat cat
 	String name
-	String wao()
-	bool fetchBall(String pos)
-	void run()
-	void sleep()
+	wao() String
+	fetchBall(String pos) bool
+	run() void
+	sleep() void
 }
 ```
 
@@ -136,27 +148,27 @@ RedShapeDecorator --* ShapeDecorator
 
 class IShape {
 	<<interface>>
-	void draw()
+	draw() void
 }
 
 class Rectangle {
-	void draw()
+	draw() void
 }
 
 class Circle {
-	void draw()
+	draw() void
 }
 
 class ShapeDecorator {
 	IShape decoratedShape
 	ShapeDecorator(IShape decoratedShape)
-	void draw()
+	draw() void
 }
 
 class RedShapeDecorator {
-	public RedShapeDecorator(IShape decoratedShape)
-	public void draw()
-	private void setRedBorder(IShape decoratedShape)
+	+RedShapeDecorator(IShape decoratedShape)
+	+draw() void
+	-setRedBorder(IShape decoratedShape) void
 }
 ```
 
@@ -174,3 +186,61 @@ class RedShapeDecorator {
 我是Rectangle！
 我有红边框！
 ```
+
+# 模板方法
+
+```mermaid
+classDiagram
+
+AbstractClass <|-- ConcreteClass
+
+class AbstractClass {
+	<<abstract>>
+	+templateMethod()
+	#operation1()*
+	#operation2()
+	#operation3()
+}
+
+class ConcreteClass {
+	+operation1()
+	+operation2()
+}
+```
+
+## Output
+
+```
+执行抽象方法1
+实现钩子方法2
+执行具体方法3
+```
+
+# 单例模式
+
+```mermaid
+classDiagram
+
+class SingletonObject {
+	-SingletonObject Singleton$
+	-SingletonObject()
+	+getInstance()$ SingletonObject
+	+doSomething() void
+}
+```
+
+可以让 `SingletonObject` 本身拥有一个公开的静态实例，省去了获取实例方法
+
+```mermaid
+classDiagram
+
+class SingletonObject {
+	+SingletonObject Singleton$
+	-SingletonObject()
+	+doSomething() void
+}
+```
+
+# 参考资料
+
+[Class Diagram](https://mermaid-js.github.io/mermaid/#/classDiagram?id=class-diagrams)
